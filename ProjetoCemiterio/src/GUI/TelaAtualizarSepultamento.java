@@ -10,16 +10,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
@@ -28,9 +29,6 @@ import org.jdesktop.swingx.JXDatePicker;
 
 import DAO.SepultamentoDAO;
 import Entidades.Sepultamento;
-
-import javax.swing.JSeparator;
-import javax.swing.JFormattedTextField;
 
 public class TelaAtualizarSepultamento extends JInternalFrame {
 
@@ -69,7 +67,8 @@ public class TelaAtualizarSepultamento extends JInternalFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaAtualizarSepultamento frame = new TelaAtualizarSepultamento(null, null, null, null);
+					TelaAtualizarSepultamento frame = new TelaAtualizarSepultamento(
+							null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -82,7 +81,8 @@ public class TelaAtualizarSepultamento extends JInternalFrame {
 	 * Create the frame.
 	 * @throws ParseException 
 	 */
-	public TelaAtualizarSepultamento(Sepultamento umSepultamento, String sexo, String raca, String estado) throws ParseException {
+	public TelaAtualizarSepultamento(Sepultamento umSepultamento)
+			throws ParseException {
 		setResizable(false);
 		setTitle("Atualizar Sepultamento");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -104,7 +104,7 @@ public class TelaAtualizarSepultamento extends JInternalFrame {
                 mascaraCpf.setPlaceholderCharacter('_');
                 mascaraRg.setPlaceholderCharacter('_');
          } catch(ParseException excp) {
-                System.err.println("Erro na formatação: " + excp.getMessage());
+                System.err.println("Erro na formataï¿½ï¿½o: " + excp.getMessage());
                 System.exit(-1);
          }
 		
@@ -137,7 +137,7 @@ public class TelaAtualizarSepultamento extends JInternalFrame {
 
         txtData = new JXDatePicker();
         txtData.setBounds(333, 61, 160, 20);
-        txtData.setDate(Calendar.getInstance().getTime());
+		txtData.setDate(umSepultamento.getObito_data());
         txtData.setFormats(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss"));
         contentPane.add(txtData);
         
@@ -200,7 +200,7 @@ public class TelaAtualizarSepultamento extends JInternalFrame {
 		txtSexo.setModel(new DefaultComboBoxModel<String>(
 		new String[] { "Masculino", "Feminino", "Ignorado" }));
 	    contentPane.add(txtSexo);
-	    txtSexo.setSelectedItem(sexo);
+		txtSexo.setSelectedItem(umSepultamento.getSexo());
 	    
 		JLabel lblRaacor = new JLabel("Ra\u00E7a/Cor:");
 		lblRaacor.setBounds(202, 201, 82, 14);
@@ -210,9 +210,9 @@ public class TelaAtualizarSepultamento extends JInternalFrame {
 		txtRaca = new JComboBox<String>();
 		txtRaca.setBounds(202, 226, 116, 20);
 		txtRaca.setModel(new DefaultComboBoxModel<String>(
-		new String[] { "Branca", "Parda", "Preta", "Indígena" }));
+		new String[] { "Branca", "Parda", "Preta", "Indï¿½gena" }));
 	    contentPane.add(txtRaca);
-	    txtRaca.setSelectedItem(raca);
+		txtRaca.setSelectedItem(umSepultamento.getRaca_cor());
 		
 		JLabel lblEstadoCivil = new JLabel("Estado Civil:");
 		lblEstadoCivil.setBounds(375, 201, 82, 14);
@@ -222,9 +222,9 @@ public class TelaAtualizarSepultamento extends JInternalFrame {
 		txtEstado = new JComboBox<String>();
 		txtEstado.setBounds(376, 226, 117, 20);
 		txtEstado.setModel(new DefaultComboBoxModel<String>(
-		new String[] { "Solteiro", "Casado", "Viúvo", "Divorciado", "Ignorado" }));
+		new String[] { "Solteiro", "Casado", "Viï¿½vo", "Divorciado", "Ignorado" }));
 	    contentPane.add(txtEstado);
-	    txtEstado.setSelectedItem(estado);
+		txtEstado.setSelectedItem(umSepultamento.getEstado_civil());
 		
 		JLabel lblCausaDaMorte = new JLabel("Causa da Morte:");
 		lblCausaDaMorte.setBounds(20, 257, 82, 14);

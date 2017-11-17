@@ -70,6 +70,7 @@ public class TelaBuscarPorData extends JInternalFrame {
 					e.printStackTrace();
 				}
 			}
+
 		});
 		btnBuscar.setBounds(131, 116, 112, 39);
 		contentPane.add(btnBuscar);
@@ -94,10 +95,10 @@ public class TelaBuscarPorData extends JInternalFrame {
 		ArrayList<Sepultamento> sepultamentos = dao.buscarPorData(data);
 		 
 		if(sepultamentos.isEmpty()){
-			JOptionPane.showMessageDialog(this, "A data de sepultamento não foi encontrada no sistema", "", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "A data de sepultamento nï¿½o foi encontrada no sistema", "", JOptionPane.ERROR_MESSAGE);
 		} else {
 			TelaListaSepultamentos tlListaSepultamentos;
-			tlListaSepultamentos = new TelaListaSepultamentos(data);
+			tlListaSepultamentos = new TelaListaSepultamentos(sepultamentos);
 			TelaPrincipal.desktopPane_1.add(tlListaSepultamentos);
 			tlListaSepultamentos.setVisible(true);
 			tlListaSepultamentos.setPosicao();

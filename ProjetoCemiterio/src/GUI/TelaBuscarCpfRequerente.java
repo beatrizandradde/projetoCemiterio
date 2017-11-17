@@ -69,7 +69,7 @@ public class TelaBuscarCpfRequerente extends JInternalFrame {
 			mascaraCpf.setPlaceholderCharacter('_');
 		}
 		catch(ParseException excp) {
-			System.err.println("Erro na formatação: " + excp.getMessage());
+			System.err.println("Erro na formataï¿½ï¿½o: " + excp.getMessage());
 			System.exit(-1);
 		}
 
@@ -127,12 +127,10 @@ public class TelaBuscarCpfRequerente extends JInternalFrame {
 		Sepultamento s = dao.buscarCpfRequerente(cpf);
 
 		if (s == null) {
-			JOptionPane.showMessageDialog(this, "O CPF não foi encontrado no sistema!", "", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "O CPF nï¿½o foi encontrado no sistema!", "", JOptionPane.ERROR_MESSAGE);
 		} else {
-			String sexo = s.getSexo();
-			String raca = s.getRaca_cor();
-			String estado = s.getEstado_civil();
-			TelaAtualizarSepultamento tlAtualizarSepultamento = new TelaAtualizarSepultamento(s, sexo, raca, estado);
+			TelaAtualizarSepultamento tlAtualizarSepultamento = new TelaAtualizarSepultamento(
+					s);
 			TelaPrincipal.desktopPane_1.add(tlAtualizarSepultamento);
 			tlAtualizarSepultamento.setVisible(true);		
 			tlAtualizarSepultamento.setPosicao();

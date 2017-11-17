@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 
 import Entidades.Sepultamento;
 
@@ -149,7 +148,7 @@ public class SepultamentoDAO extends AbstractDAO {
 				s.setNome_pai(rs.getString("nome_pai"));
 				s.setNome_mae(rs.getString("nome_mae"));
 				s.setIdade(rs.getInt("idade"));
-				s.setSexo(rs.getString("sexo"));-
+				s.setSexo(rs.getString("sexo"));
 				s.setRaca_cor(rs.getString("raca_cor"));
 				s.setEstado_civil(rs.getString("estado_civil"));
 				s.setCausa_morte(rs.getString("causa_morte"));

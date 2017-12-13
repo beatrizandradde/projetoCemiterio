@@ -10,7 +10,7 @@ public abstract class AbstractDAO {
  
     public AbstractDAO() {
         try {
-            conexao = DriverManager.getConnection("jdbc:mysql://localhost/projetocemiterio", "root", "root");
+            conexao = DriverManager.getConnection("jdbc:mysql://localhost/projeto", "root", "root");
         } catch (SQLException e) {
             System.out.println("Não foi possível conectar ao banco de dados: \n\t" + e);
         }

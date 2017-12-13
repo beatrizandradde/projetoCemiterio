@@ -5,8 +5,10 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 
 import javax.swing.JInternalFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.TabableView;
 
 import Entidades.Sepultamento;
 
@@ -46,9 +48,14 @@ public class TelaListaSepultamentos extends JInternalFrame {
 		getContentPane().setLayout(null);
 		
 		tableSepultamentos = new JTable();
+		tableSepultamentos.setEnabled(false);
 		tableSepultamentos.setBounds(10, 263, 414, -257);
-		getContentPane().add(tableSepultamentos);
+		//getContentPane().add(tableSepultamentos);
 		gerarLista();
+		
+		JScrollPane scrollPane = new JScrollPane(tableSepultamentos);
+		//getContentPane().add(contentPane);
+		getContentPane().add(scrollPane);
 		
 	
 	}
@@ -72,6 +79,6 @@ public class TelaListaSepultamentos extends JInternalFrame {
 	public void setPosicao() {
 		Dimension d = this.getDesktopPane().getSize();
 		this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
-		}
+	}
 	
 }

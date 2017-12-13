@@ -80,7 +80,7 @@ public class TelaPrincipal extends JFrame {
 		JMenuItem mntmPorCpfDo = new JMenuItem("Por CPF do Requerente");
 		mntmPorCpfDo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TelaBuscarCpfRequerente tlBuscarRequerente = new TelaBuscarCpfRequerente();
+				TelaBuscarNumProcesso tlBuscarRequerente = new TelaBuscarNumProcesso();
 				desktopPane_1.add(tlBuscarRequerente);
 				tlBuscarRequerente.setVisible(true);
 				tlBuscarRequerente.setPosicao();

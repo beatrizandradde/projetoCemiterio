@@ -2,7 +2,6 @@ package GUI;
 
 import java.awt.Button;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,41 +18,30 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
 
-import DAO.SepultamentoDAO;
-import Entidades.Sepultamento;
-import NGUI.TelaBuscarFalecido;
+import DAO.FalecidoDAO;
+import DAO.RequerenteDAO;
+import Entidades.Falecido;
+import Entidades.Requerente;
 
-public class TelaBuscarCpfRequerente extends JInternalFrame {
+public class TelaBuscarNumProcesso extends JInternalFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtCpf;
+	private JTextField txtNum;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaBuscarFalecido frame = new TelaBuscarFalecido();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the frame.
 	 */
-	public TelaBuscarCpfRequerente() {
+	public TelaBuscarNumProcesso() {
 		setTitle("Cadastro do Sepultamento");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 264, 206);
@@ -62,7 +50,7 @@ public class TelaBuscarCpfRequerente extends JInternalFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		MaskFormatter mascaraCpf = null;
+		/*MaskFormatter mascaraCpf = null;
 
 		try{
 			mascaraCpf = new MaskFormatter("###.###.###-##");
@@ -71,20 +59,20 @@ public class TelaBuscarCpfRequerente extends JInternalFrame {
 		catch(ParseException excp) {
 			System.err.println("Erro na formataï¿½ï¿½o: " + excp.getMessage());
 			System.exit(-1);
-		}
+		}*/
 
-		JLabel lblInformeO = new JLabel("CPF do requerente::");
+		JLabel lblInformeO = new JLabel("Número do Processo do Falecido:");
 		lblInformeO.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInformeO.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblInformeO.setBounds(10, 31, 233, 14);
 		contentPane.add(lblInformeO);
 
-		txtCpf = new JFormattedTextField(mascaraCpf);
-		txtCpf.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtCpf.setBounds(64, 56, 126, 31);
-		contentPane.add(txtCpf);
-		txtCpf.setColumns(10);
-		txtCpf.addKeyListener(new KeyAdapter() {
+		txtNum = new JFormattedTextField();
+		txtNum.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtNum.setBounds(64, 56, 126, 31);
+		contentPane.add(txtNum);
+		txtNum.setColumns(10);
+		txtNum.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent ev) {
 				String caracteres="0987654321";
@@ -99,7 +87,7 @@ public class TelaBuscarCpfRequerente extends JInternalFrame {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					buscarRequerente();
+					buscarSepultamento();
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -119,18 +107,22 @@ public class TelaBuscarCpfRequerente extends JInternalFrame {
 		contentPane.add(button);
 	}
 
-	public void buscarRequerente() throws ParseException {
+	public void buscarSepultamento() throws ParseException {
 
-		String cpf = txtCpf.getText();
+		String numProc = txtNum.getText();
 
-		SepultamentoDAO dao = new SepultamentoDAO();
-		Sepultamento s = dao.buscarCpfRequerente(cpf);
+		FalecidoDAO faldao = new FalecidoDAO();
+		Falecido f = faldao.buscarNumeroProcesso(numProc);
 
-		if (s == null) {
-			JOptionPane.showMessageDialog(this, "O CPF nï¿½o foi encontrado no sistema!", "", JOptionPane.ERROR_MESSAGE);
+		if (f == null) {
+			JOptionPane.showMessageDialog(this, "O número de processo não foi encontrado no sistema!", "", JOptionPane.ERROR_MESSAGE);
 		} else {
-			TelaAtualizarSepultamento tlAtualizarSepultamento = new TelaAtualizarSepultamento(
-					s);
+			String cpf = f.getRequerente_cpf().toString();
+			RequerenteDAO reqdao = new RequerenteDAO();
+			Requerente r = reqdao.buscarPorCpf(cpf);
+
+			TelaAtualizarSepultamento tlAtualizarSepultamento = new TelaAtualizarSepultamento(f, r);
+			
 			TelaPrincipal.desktopPane_1.add(tlAtualizarSepultamento);
 			tlAtualizarSepultamento.setVisible(true);		
 			tlAtualizarSepultamento.setPosicao();

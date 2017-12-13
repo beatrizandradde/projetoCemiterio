@@ -2,17 +2,18 @@ package Entidades;
 
 public class Requerente {
 	
-	private String nome;
+	private String nome_requerente;
 	private String endereco;
-	private String telefone;
+	private String telefone1;
+	private String telefone2;
 	private String rg;
 	private String cpf;
 	
-	public String getNome() {
-		return nome;
+	public String getNome_requerente() {
+		return nome_requerente;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNome_requerente(String nome_requerente) {
+		this.nome_requerente = nome_requerente;
 	}
 	public String getEndereco() {
 		return endereco;
@@ -20,11 +21,17 @@ public class Requerente {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	public String getTelefone() {
-		return telefone;
+	public String getTelefone1() {
+		return telefone1;
 	}
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+	public void setTelefone1(String telefone1) {
+		this.telefone1 = telefone1;
+	}
+	public String getTelefone2() {
+		return telefone2;
+	}
+	public void setTelefone2(String telefone2) {
+		this.telefone2 = telefone2;
 	}
 	public String getRg() {
 		return rg;

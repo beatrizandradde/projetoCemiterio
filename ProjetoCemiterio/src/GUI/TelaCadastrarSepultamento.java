@@ -26,8 +26,13 @@ import javax.swing.text.MaskFormatter;
 
 import org.jdesktop.swingx.JXDatePicker;
 
-import DAO.SepultamentoDAO;
-import Entidades.Sepultamento;
+import DAO.FalecidoDAO;
+import DAO.RequerenteDAO;
+import Entidades.DataUtil;
+import Entidades.Falecido;
+import Entidades.Requerente;
+import Entidades.ValidaCPF;
+import Entidades.ValidarCpf;
 
 import javax.swing.JSeparator;
 import javax.swing.JFormattedTextField;
@@ -61,6 +66,7 @@ public class TelaCadastrarSepultamento extends JInternalFrame {
 	private JTextField txtRg;
 	private JTextField txtCpf;
 	private JTextField txtOrgao;
+	private JTextField txtHora;
 
 	/**
 	 * Launch the application.
@@ -95,14 +101,17 @@ public class TelaCadastrarSepultamento extends JInternalFrame {
 		 MaskFormatter mascaraTel = null;
          MaskFormatter mascaraCpf = null;
          MaskFormatter mascaraRg = null;
+         MaskFormatter mascaraHora = null;
 
          try {
         	 	mascaraCpf = new MaskFormatter("###.###.###-##");
                 mascaraRg = new MaskFormatter("##.###.###-#");
-                mascaraTel = new MaskFormatter("##.###.###-#");
+                mascaraTel = new MaskFormatter("(##) #####-####");
+                mascaraHora = new MaskFormatter("##:##");
                 mascaraTel.setPlaceholderCharacter('_');
                 mascaraCpf.setPlaceholderCharacter('_');
                 mascaraRg.setPlaceholderCharacter('_');
+                mascaraHora.setPlaceholderCharacter('_');
          } catch(ParseException excp) {
                 System.err.println("Erro na formatação: " + excp.getMessage());
                 System.exit(-1);
@@ -114,7 +123,7 @@ public class TelaCadastrarSepultamento extends JInternalFrame {
 		contentPane.add(lblNmeroDoProcesso);
 				
 		txtNumProcesso = new JTextField();
-		txtNumProcesso.setBounds(20, 61, 129, 20);
+		txtNumProcesso.setBounds(20, 61, 116, 20);
 		contentPane.add(txtNumProcesso);
 		txtNumProcesso.setColumns(10);
 		txtNumProcesso.addKeyListener(new KeyAdapter() {
@@ -128,18 +137,16 @@ public class TelaCadastrarSepultamento extends JInternalFrame {
 		});
 		
 		JLabel lblDataDobito = new JLabel("Data do \u00D3bito:");
-		lblDataDobito.setBounds(356, 36, 113, 14);
+		lblDataDobito.setBounds(279, 36, 113, 14);
 		lblDataDobito.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		contentPane.add(lblDataDobito);
 		
         txtData = new JXDatePicker();
-        txtData.setBounds(354, 61, 139, 20);
+        txtData.setBounds(279, 61, 116, 20);
         txtData.setDate(Calendar.getInstance().getTime());
         txtData.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
         contentPane.add(txtData);
         
-        
-		
 		JLabel lblNomeDoFalecido = new JLabel("Nome do Falecido:");
 		lblNomeDoFalecido.setBounds(20, 92, 129, 14);
 		lblNomeDoFalecido.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -362,12 +369,7 @@ public class TelaCadastrarSepultamento extends JInternalFrame {
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 411, 491, 2);
 		contentPane.add(separator_1);
-		
-//		JFormattedTextField txtTelefone2 = new JFormattedTextField(mascaraTel);
-//		txtTelefone2.setColumns(10);
-//		txtTelefone2.setBounds(142, 550, 102, 20);
-//		contentPane.add(txtTelefone2);
-		
+				
 		txtTelefone2 = new JFormattedTextField(mascaraTel);
 		txtTelefone2.setBounds(142, 550, 102, 20);
 		contentPane.add(txtTelefone2);
@@ -395,14 +397,23 @@ public class TelaCadastrarSepultamento extends JInternalFrame {
 		contentPane.add(lblCpf_1);
 		
 		txtOrgao = new JTextField();
-		txtOrgao.setBounds(185, 61, 133, 20);
+		txtOrgao.setBounds(151, 61, 113, 20);
 		contentPane.add(txtOrgao);
 		txtOrgao.setColumns(10);
 		
 		JLabel lblOrgoEmissor = new JLabel("Org\u00E3o Emissor:");
 		lblOrgoEmissor.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblOrgoEmissor.setBounds(185, 36, 91, 14);
+		lblOrgoEmissor.setBounds(153, 36, 91, 14);
 		contentPane.add(lblOrgoEmissor);
+		
+		JLabel lblHoraDobito = new JLabel("Hora do \u00D3bito:");
+		lblHoraDobito.setBounds(411, 36, 82, 14);
+		contentPane.add(lblHoraDobito);
+		
+		txtHora = new JFormattedTextField(mascaraHora);
+		txtHora.setBounds(411, 61, 82, 20);
+		contentPane.add(txtHora);
+		txtHora.setColumns(10);
 	}
 	
 	public void setPosicao() {
@@ -410,49 +421,60 @@ public class TelaCadastrarSepultamento extends JInternalFrame {
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
 	}
 	
-
+	//tcc.setData(DataUtil.converterStringParaDate(tf_data.getText()));
+	
 	public void CadastrarSepultamento() {
 		sexo = (String)txtSexo.getSelectedItem();
 		raca = (String)txtRaca.getSelectedItem();
 		estado = (String)txtEstado.getSelectedItem();
 		
-		Sepultamento s = new Sepultamento();
+		Requerente r = new Requerente();
+		Falecido f = new Falecido();
 		try {
-			s.setNumero_processo_obito(Integer.parseInt(txtNumProcesso.getText()));
-			s.setOrgao_emissor(txtOrgao.getText());
-			s.setIdade(Integer.parseInt(txtIdade.getText()));
-			s.setNome_falecido(txtFalecido.getText());
-			s.setNome_pai(txtPai.getText());
-			s.setNome_mae(txtMae.getText());
-			s.setCausa_morte(txtCausaMorte.getText());
-			s.setMedico_nome(txtMedico.getText());
-			s.setMedico_crm(Integer.parseInt(txtCrm.getText()));
-			s.setNumero_processo_obito(Integer.parseInt(txtNumProcesso.getText()));
+			r.setNome_requerente(txtNomeR.getText());
+			r.setEndereco(txtEndereco.getText());
+			r.setTelefone1(txtTelefone.getText());
+			r.setTelefone2(txtTelefone2.getText());
+			r.setRg(txtRg.getText());
+			r.setCpf(txtCpf.getText());
+			
+			f.setNumero_processo_obito(Integer.parseInt(txtNumProcesso.getText()));
+			f.setOrgao_emissor(txtOrgao.getText());
+			f.setHora(DataUtil.converterStringParaDate(txtHora.getText()));
+			f.setIdade(Integer.parseInt(txtIdade.getText()));
+			f.setNome_falecido(txtFalecido.getText());
+			f.setNome_pai(txtPai.getText());
+			f.setNome_mae(txtMae.getText());
+			f.setCausa_morte(txtCausaMorte.getText());
+			f.setMedico_nome(txtMedico.getText());
+			f.setMedico_crm(Integer.parseInt(txtCrm.getText()));
+			f.setNumero_processo_obito(Integer.parseInt(txtNumProcesso.getText()));
 			Date data = (Date) txtData.getEditor().getValue();
-			s.setObito_data(data);		
-			s.setSexo(sexo);
-			s.setRaca_cor(raca);
-			s.setEstado_civil(estado);
-			s.setNome_requerente(txtNomeR.getText());
-			s.setEndereco(txtEndereco.getText());
-			s.setTelefone1(txtTelefone.getText());
-			s.setTelefone2(txtTelefone2.getText());
-			s.setRg(txtRg.getText());
-			s.setCpf(txtCpf.getText());
+			f.setObito_data(data);		
+			f.setSexo(sexo);
+			f.setRaca_cor(raca);
+			f.setEstado_civil(estado);
 			
-			SepultamentoDAO dao = new SepultamentoDAO();
+			RequerenteDAO reqdao = new RequerenteDAO();
+			FalecidoDAO faldao = new FalecidoDAO();
 			
-			Sepultamento teste = dao.buscarCpfRequerente(txtCpf.getText());
+			Requerente teste = reqdao.buscarPorCpf(txtCpf.getText());
 			
 			if (txtFalecido.getText().isEmpty() || txtCausaMorte.getText().isEmpty() || txtMedico.getText().isEmpty() || txtNomeR.getText().isEmpty()
 					|| txtEndereco.getText().isEmpty() || txtTelefone.getText().isEmpty() || txtRg.getText().isEmpty() || txtCpf.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(this, "Preencha todos os dados!", "", JOptionPane.ERROR_MESSAGE);
+			} else if (!ValidaCPF.isCPF(txtCpf.getText().replace("-", "").replace(".", ""))) {
+				JOptionPane.showMessageDialog(this, "Informe um CPF válido!", "", JOptionPane.ERROR_MESSAGE);
 			} else if (teste != null) {
 				JOptionPane.showMessageDialog(this, "O número do CPF do Requerente já está cadastrado no sistema!", "", JOptionPane.ERROR_MESSAGE);
+			} else if (txtTelefone.getText().equals(txtTelefone2.getText())) {
+				JOptionPane.showMessageDialog(this, "Informe dois números de telefone diferente!", "", JOptionPane.ERROR_MESSAGE);
 			} else {
-				 if (dao.cadastrar(s, sexo, raca, estado)) {
+				 if (reqdao.cadastrar(r)) {
+					 if(faldao.cadastrar(f, sexo, raca, estado, r.getCpf())) {
 						JOptionPane.showMessageDialog(this, "Os dados do sepultamento foram adicionados ao sistema!", "", JOptionPane.INFORMATION_MESSAGE);
 						dispose();
+					 }
 				} else {
 						JOptionPane.showMessageDialog(this, "Erro ao adicionar os dados do sepultamento no sistema!", "", JOptionPane.ERROR_MESSAGE);
 				}

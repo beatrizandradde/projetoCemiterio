@@ -13,13 +13,14 @@ public class RequerenteDAO extends AbstractDAO {
 
 		try {
 			PreparedStatement stmt = conexao.prepareStatement(
-					"insert into requerente (nome, endereco, telefone, rg, cpf) values (?, ?, ?, ?, ?)");
+					"insert into requerente (nome_requerente, endereco, telefone1, telefone2, rg, cpf) values (?, ?, ?, ?, ?, ?)");
 
-			stmt.setString(1, umRequerente.getNome());
+			stmt.setString(1, umRequerente.getNome_requerente());
 			stmt.setString(2, umRequerente.getEndereco());
-			stmt.setString(3, umRequerente.getTelefone());
-			stmt.setString(4, umRequerente.getRg());
-			stmt.setString(5, umRequerente.getCpf());
+			stmt.setString(3, umRequerente.getTelefone1());
+			stmt.setString(4, umRequerente.getTelefone2());
+			stmt.setString(5, umRequerente.getRg());
+			stmt.setString(6, umRequerente.getCpf());
 
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -30,7 +31,7 @@ public class RequerenteDAO extends AbstractDAO {
 		return n == 1;
 	}
 	
-	public Requerente buscarRequerente(String umCpf) {
+	public Requerente buscarPorCpf(String umCpf) {
 		Requerente r = null;
 
 		try {
@@ -43,16 +44,17 @@ public class RequerenteDAO extends AbstractDAO {
 			if (rs.next()) {
 				r = new Requerente();
 				
-				r.setNome(rs.getString("nome"));
+				r.setNome_requerente(rs.getString("nome_requerente"));
 				r.setEndereco(rs.getString("endereco"));
-				r.setTelefone(rs.getString("telefone"));
+				r.setTelefone1(rs.getString("telefone1"));
+				r.setTelefone2(rs.getString("telefone2"));
 				r.setRg(rs.getString("rg"));
 				r.setCpf(rs.getString("cpf"));
-				
+			
 	}
 		} catch (SQLException e) {
 			r = null;
-			System.out.println("Erro ao buscar requerente: \n\t" + e);
+			System.out.println("Erro ao buscar sepultamento: \n\t" + e);
 		}
 
 		return r;

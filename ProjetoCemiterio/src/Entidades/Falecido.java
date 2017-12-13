@@ -5,7 +5,9 @@ import java.util.Date;
 public class Falecido {
 		
 	private int numero_processo_obito;
+	private String orgao_emissor;
 	private Date obito_data;
+	private Date hora;
 	private String nome_falecido;
 	private String nome_pai;
 	private String nome_mae;
@@ -16,17 +18,31 @@ public class Falecido {
 	private String causa_morte;
 	private String medico_nome;
 	private int medico_crm;
+	private Requerente requerente_cpf;
+	
 	public int getNumero_processo_obito() {
 		return numero_processo_obito;
 	}
 	public void setNumero_processo_obito(int numero_processo_obito) {
 		this.numero_processo_obito = numero_processo_obito;
 	}
+	public String getOrgao_emissor() {
+		return orgao_emissor;
+	}
+	public void setOrgao_emissor(String orgao_emissor) {
+		this.orgao_emissor = orgao_emissor;
+	}
 	public Date getObito_data() {
 		return obito_data;
 	}
-	public void setObito_data(java.util.Date date) {
-		this.obito_data = date;
+	public void setObito_data(Date obito_data) {
+		this.obito_data = obito_data;
+	}
+	public Date getHora() {
+		return hora;
+	}
+	public void setHora(Date hora) {
+		this.hora = hora;
 	}
 	public String getNome_falecido() {
 		return nome_falecido;
@@ -88,5 +104,11 @@ public class Falecido {
 	public void setMedico_crm(int medico_crm) {
 		this.medico_crm = medico_crm;
 	}
-
+	public Requerente getRequerente_cpf() {
+		return requerente_cpf;
+	}
+	public void setRequerente_cpf(Requerente requerente_cpf) {
+		this.requerente_cpf = requerente_cpf;
+	}
+	
 }

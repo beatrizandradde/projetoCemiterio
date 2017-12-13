@@ -15,29 +15,30 @@ public class SepultamentoDAO extends AbstractDAO {
 
 		try {
 			PreparedStatement stmt = conexao.prepareStatement(
-					"insert into sepultamento (numero_processo_obito, orgao_emissor, obito_data, nome_falecido, nome_pai,"
+					"insert into sepultamento (numero_processo_obito, orgao_emissor, obito_data, obito_hora, nome_falecido, nome_pai,"
 					+ "nome_mae, idade, sexo, raca_cor, estado_civil, causa_morte, medico_nome, medico_crm,"
-					+ "nome_requerente, endereco, telefone1, telefone2, rg, cpf) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					+ "nome_requerente, endereco, telefone1, telefone2, rg, cpf) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			stmt.setInt(1, umSepultamento.getNumero_processo_obito());
 			stmt.setString(2, umSepultamento.getOrgao_emissor());
 			stmt.setTimestamp(3, new Timestamp(umSepultamento.getObito_data().getTime()));
-			stmt.setString(4, umSepultamento.getNome_falecido());
-			stmt.setString(5, umSepultamento.getNome_pai());
-			stmt.setString(6, umSepultamento.getNome_mae());
-			stmt.setInt(7, umSepultamento.getIdade());
-			stmt.setString(8, sexo);
-			stmt.setString(9, raca);
-			stmt.setString(10, estado);
-			stmt.setString(11, umSepultamento.getCausa_morte());
-			stmt.setString(12, umSepultamento.getMedico_nome());
-			stmt.setInt(13, umSepultamento.getMedico_crm());
-			stmt.setString(14, umSepultamento.getNome_requerente());
-			stmt.setString(15, umSepultamento.getEndereco());
-			stmt.setString(16, umSepultamento.getTelefone1());
-			stmt.setString(17, umSepultamento.getTelefone2());
-			stmt.setString(18, umSepultamento.getRg());
-			stmt.setString(19, umSepultamento.getCpf());
+			stmt.setTimestamp(4, new Timestamp(umSepultamento.getHora().getTime()));
+			stmt.setString(5, umSepultamento.getNome_falecido());
+			stmt.setString(6, umSepultamento.getNome_pai());
+			stmt.setString(7, umSepultamento.getNome_mae());
+			stmt.setInt(8, umSepultamento.getIdade());
+			stmt.setString(9, sexo);
+			stmt.setString(10, raca);
+			stmt.setString(11, estado);
+			stmt.setString(12, umSepultamento.getCausa_morte());
+			stmt.setString(13, umSepultamento.getMedico_nome());
+			stmt.setInt(14, umSepultamento.getMedico_crm());
+			stmt.setString(15, umSepultamento.getNome_requerente());
+			stmt.setString(16, umSepultamento.getEndereco());
+			stmt.setString(17, umSepultamento.getTelefone1());
+			stmt.setString(18, umSepultamento.getTelefone2());
+			stmt.setString(19, umSepultamento.getRg());
+			stmt.setString(20, umSepultamento.getCpf());
 
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
